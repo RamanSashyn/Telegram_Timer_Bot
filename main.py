@@ -13,11 +13,18 @@ last_message_text = None
 
 
 def notify_progress(secs_left, chat_id, message_id):
+    global last_message_text
+
     if secs_left > 0:
         message = f"Осталось {secs_left} секунд"
+    else:
+        message = "Осталось 0 секунд"
+
+    if message != last_message_text:
         bot.update_message(chat_id, message_id, message)
-    elif secs_left == 0:
-        bot.update_message(chat_id, message_id, "Осталось 0 секунд")
+        last_message_text = message
+
+    if secs_left == 0:
         bot.create_timer(0.001, choose, chat_id=chat_id)
 
 
@@ -26,14 +33,15 @@ def choose(chat_id):
     bot.send_message(chat_id, message)
 
 
-
 def wait(chat_id, question):
+    global last_message_text
 
     seconds_left = parse(question)
 
     if seconds_left:
-        message = bot.send_message(chat_id, f"Осталось {seconds_left} секунд")
-        message_id = message
+        message = f"Осталось {seconds_left} секунд"
+        message_id = bot.send_message(chat_id, message)
+        last_message_text = message
         bot.create_countdown(seconds_left, notify_progress, chat_id=chat_id, message_id=message_id)
     else:
         bot.send_message(chat_id, "Неверный формат времени. Используйте, например, '5s' или '10m'.")
