@@ -3,8 +3,8 @@ from dotenv import load_dotenv
 from pytimeparse import parse
 import ptbot
 
-load_dotenv()
 
+load_dotenv()
 TG_TOKEN = os.getenv("TG_TOKEN")
 TG_CHAT_ID = "571873439"
 
