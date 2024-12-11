@@ -1,12 +1,9 @@
 import os
+
+import telegram
 from dotenv import load_dotenv
 from pytimeparse import parse
 import ptbot
-
-
-load_dotenv()
-TG_TOKEN = os.getenv("TG_TOKEN")
-TG_CHAT_ID = "571873439"
 
 
 def render_progressbar(
@@ -35,7 +32,7 @@ def choose(chat_id):
     bot.send_message(chat_id, message)
 
 
-def main(chat_id, question):
+def handle_message(chat_id, question):
     seconds_left = parse(question)
 
     if seconds_left:
@@ -55,7 +52,14 @@ def main(chat_id, question):
         )
 
 
-if __name__ == "__main__":
-    bot = ptbot.Bot(TG_TOKEN)
-    bot.reply_on_message(main)
+def main():
+    load_dotenv()
+    tg_token = os.getenv("TG_TOKEN")
+    global bot
+    bot = ptbot.Bot(tg_token)
+    bot.reply_on_message(handle_message)
     bot.run_bot()
+
+
+if __name__ == "__main__":
+    main()
