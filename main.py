@@ -4,6 +4,11 @@ from pytimeparse import parse
 import ptbot
 
 
+load_dotenv()
+TG_TOKEN = os.getenv("TG_TOKEN")
+TG_CHAT_ID = "571873439"
+
+
 def render_progressbar(
     total, iteration, prefix="", suffix="", length=30, fill="█", zfill="░"
 ):
@@ -48,11 +53,6 @@ def main(chat_id, question):
             chat_id,
             "Неверный формат времени. Используйте, например, '5s' или '10m'.",
         )
-
-
-load_dotenv()
-TG_TOKEN = os.getenv("TG_TOKEN")
-TG_CHAT_ID = "571873439"
 
 
 if __name__ == "__main__":
